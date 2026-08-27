@@ -1,8 +1,14 @@
 # Use the official Node.js 18 image
 FROM node:18-slim
 
-# Install git so npm can fetch packages from GitHub repositories
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+# Install git and the C++ build tools required for the 'sharp' image module
+RUN apt-get update && apt-get install -y \
+    git \
+    python3 \
+    make \
+    g++ \
+    libvips-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory inside the container
 WORKDIR /app
