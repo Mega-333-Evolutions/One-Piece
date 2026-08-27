@@ -1,5 +1,8 @@
-# Use the official Node.js 18 image (you can change to 20 if your bot requires it)
+# Use the official Node.js 18 image
 FROM node:18-slim
+
+# Install git so npm can fetch packages from GitHub repositories
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory inside the container
 WORKDIR /app
