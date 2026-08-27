@@ -30,7 +30,7 @@ jobs:
           # 3. Copy everything from your GitHub repo into the HF Space 
           rsync -av --exclude='.git' --exclude='README.md' --exclude='.github' ./ hf_space/
           
-          # 4. Setup Git LFS for binary files
+          # 4. Setup Git LFS for binary files.
           cd hf_space
           git lfs install
           git lfs track "*.jpg" "*.jpeg" "*.png" "*.ttf" "*.otf" "*.webp" "*.mp4" "*.mp3"
