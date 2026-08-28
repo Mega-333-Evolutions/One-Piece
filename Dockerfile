@@ -13,14 +13,18 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
-
-# Install standard dependencies AND explicitly install 'sharp'
-RUN npm install --unsafe-perm && npm install sharp
-
-# Copy the rest of your bot's files into the container
+# 1. COPY EVERYTHING FIRST
+# This prevents your GitHub files from overwriting the installations below
 COPY . .
+
+# 2. Delete any accidentally copied node_modules (prevents OS conflicts)
+RUN rm -rf node_modules
+
+# 3. Install your standard dependencies
+RUN npm install --unsafe-perm
+
+# 4. Explicitly install the correct Linux version of sharp
+RUN npm install sharp --platform=linux --arch=x64
 
 # Expose port 7860 for Hugging Face Spaces health check
 EXPOSE 7860
