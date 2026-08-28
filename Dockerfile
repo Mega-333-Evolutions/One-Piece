@@ -1,5 +1,5 @@
-# Use the official Node.js 18 image
-FROM node:18-slim
+# 1. UPGRADE TO NODE 20
+FROM node:20-slim
 
 # Install git and C++ build tools required for sharp
 RUN apt-get update && apt-get install -y \
