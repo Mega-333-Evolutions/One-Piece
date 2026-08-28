@@ -27,4 +27,5 @@ RUN npm install sharp
 EXPOSE 7860
 
 # Start dummy web server and run the bot directly (bypassing preload.js)
-CMD node -e "require('http').createServer((req, res) => res.end('Bot is running!')).listen(7860);" & node index.js
+# Start dummy web server, start bot, and keep container alive for 60s after a crash to read the logs
+CMD node -e "require('http').createServer((req, res) => res.end('Bot is running!')).listen(7860);" & node index.js ; sleep 60
