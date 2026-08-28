@@ -26,5 +26,5 @@ RUN npm install sharp
 
 EXPOSE 7860
 
-# Start dummy web server AND bypass flash.js to run the bot directly
-CMD node -e "require('http').createServer((req, res) => res.end('Bot is running!')).listen(7860);" & node --loader ./preload.js index.js
+# Start dummy web server and run the bot directly (bypassing preload.js)
+CMD node -e "require('http').createServer((req, res) => res.end('Bot is running!')).listen(7860);" & node index.js
