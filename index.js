@@ -417,35 +417,6 @@ async function start() {
             commands: commands.size
           })
         }
-        const date = moment().tz(CONFIG.TZ).format('DD/MM/YYYY')
-        const time = moment().tz(CONFIG.TZ).format('HH:mm:ss')
-        const totalCmds = commands.size
-        const prefixInfo = CONFIG.PREFIXES.length > 0 ? `Prefixes: [${CONFIG.PREFIXES.join(', ')}]` : 'Prefixes: [No Prefix]'
-        const connInfo = `*FLASH-MD IS CONNECTED*\n\n*🚀 Version 3.0.0*\n*📌 Commands:* ${totalCmds}\n*⚙️ ${prefixInfo}*\n*👑 Mode:* ${CONFIG.MODE}\n*📞 Anticall:* ${CONFIG.ANTICALL}\n*🗑️ Antidelete:* ${CONFIG.ANTIDELETE}\n*✏️ Antiedit:* ${CONFIG.ANTIEDIT}\n*📖 Auto Read:* ${CONFIG.AUTO_READ}\n*👁️ Auto View:* ${CONFIG.AUTO_VIEW}\n*❤️ Auto Like:* ${CONFIG.AUTO_LIKE}\n*💬 DM Presence:* ${CONFIG.DM_PRESENCE || 'none'}\n*👥 Group Presence:* ${CONFIG.GRP_PRESENCE || 'none'}\n*📅 Date:* ${date}\n*⏰ Time:* ${time}`
-        if (CONFIG.OWNER_NUMBER) {
-          setTimeout(async () => {
-            try {
-              const ownerJid = getOwnerJid()
-              if (ownerJid) {
-                await sock.sendMessage(ownerJid, {
-                  text: connInfo,
-                  contextInfo: {
-                    forwardingScore: 1,
-                    isForwarded: true,
-                    forwardedNewsletterMessageInfo: {
-                      newsletterJid: '120363238139244263@newsletter',
-                      newsletterName: 'FLASH-MD',
-                      serverMessageId: -1
-                    }
-                  }
-                })
-                console.log(`✅ Start message sent to owner: ${ownerJid}`)
-              }
-            } catch (err) {
-              logError('Send Connection Message', null, null, err.message)
-            }
-          }, 2000)
-        }
       }
     })
     if (CONFIG.ANTICALL === true) {

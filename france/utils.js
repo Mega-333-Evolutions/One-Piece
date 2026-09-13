@@ -7,9 +7,6 @@ import { tmpdir } from 'os';
 import util from 'util';
 import axios from 'axios';
 
-export const NEWSLETTER_JID = '120363238139244263@newsletter';
-export const NEWSLETTER_NAME = 'FLASH-MD';
-
 export function normalizeJid(jid) {
   if (!jid) return null;
   if (!jid.includes('@')) return `${jid}@s.whatsapp.net`;

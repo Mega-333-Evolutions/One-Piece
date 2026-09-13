@@ -16,7 +16,7 @@ export const commands = [
     description: 'Translate a replied message to the specified language.',
     category: 'General',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       const botVersion = config.BOT_VERSION || '3.0.0';
       const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
       
@@ -59,10 +59,10 @@ export const commands = [
     description: 'Sends contact card of the bot owner.',
     category: 'General',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       const botVersion = config.BOT_VERSION || '3.0.0';
       const ownerNumber = config.OWNER_NUMBER || '254742063632';
-      const ownerName = config.OWNER_NAME || 'FLASH-MD Owner';
+      const ownerName = config.OWNER_NAME || 'ULTROID Owner';
       const formattedPhone = ownerNumber.replace(/\D/g, '');
       
       const vcard = `BEGIN:VCARD
@@ -85,7 +85,7 @@ END:VCARD`;
     description: 'Takes a screenshot of a website using API.',
     category: 'General',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       const botVersion = config.BOT_VERSION || '3.0.0';
 
       if (!text) {
@@ -134,7 +134,7 @@ END:VCARD`;
     description: 'Get a Bible verse from a specific book, chapter, and verse.',
     category: 'General',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       const botVersion = config.BOT_VERSION || '3.0.0';
       
       if (!text) {
@@ -159,7 +159,7 @@ END:VCARD`;
     description: 'Create a poll.',
     category: 'General',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       const botVersion = config.BOT_VERSION || '3.0.0';
       const input = text;
       const [question, optionsString] = input.split('/');
@@ -185,7 +185,7 @@ END:VCARD`;
     description: 'Get a random fact.',
     category: 'User',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       const botVersion = config.BOT_VERSION || '3.0.0';
       
       try {
@@ -205,7 +205,7 @@ END:VCARD`;
     description: 'Get a random quote.',
     category: 'User',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       const botVersion = config.BOT_VERSION || '3.0.0';
       
       try {
@@ -224,7 +224,7 @@ END:VCARD`;
     description: 'Get a definition for a term.',
     category: 'Search',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       const botVersion = config.BOT_VERSION || '3.0.0';
       
       if (!text) {
@@ -251,7 +251,7 @@ END:VCARD`;
     category: 'Owner',
     ownerOnly: true,
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       const botVersion = config.BOT_VERSION || '3.0.0';
       
       if (!text) {

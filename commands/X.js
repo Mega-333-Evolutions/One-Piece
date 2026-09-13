@@ -84,16 +84,7 @@ export const commands = [
         await sock.sendMessage(from, {
           video: { url: videoUrl },
           caption: caption,
-          thumbnail: thumbnail ? { url: thumbnail } : null,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: config.BOT_NAME || 'Flash-MD',
-              serverMessageId: -1
-            }
-          }
+          thumbnail: thumbnail ? { url: thumbnail } : null
         }, { quoted: msg });
         
         console.log('[TWITTER] Video sent successfully');

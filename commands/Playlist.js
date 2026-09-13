@@ -48,7 +48,7 @@ export const commands = [
         }
 
         const { title, total, videos } = response.data;
-        const botName = config.BOT_NAME || 'FLASH-MD V3';
+        const botName = config.BOT_NAME || 'ULTROID';
         const userLang = getUserLang(from);
 
         const playlistHeader = await t(from, 'playlist', 'header');
@@ -82,16 +82,7 @@ export const commands = [
 
         await sock.sendMessage(from, {
           image: { url: thumbnail },
-          caption: playlistText,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          caption: playlistText
         }, { quoted: msg });
 
       } catch (error) {

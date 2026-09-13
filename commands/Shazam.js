@@ -34,7 +34,7 @@ export const commands = [
     description: 'Identify a song from an audio or video clip.',
     category: 'Search',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'FLASH-MD';
+      const botName = config.BOT_NAME || 'ULTROID';
       const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
       
       if (!quoted || (!quoted.audioMessage && !quoted.videoMessage)) {
@@ -103,16 +103,7 @@ export const commands = [
         response += footerMsg.replace('{botName}', botName);
         
         return sock.sendMessage(from, {
-          text: response.trim(),
-          contextInfo: {
-            forwardingScore: 777,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          text: response.trim()
         }, { quoted: msg });
       } catch (err) {
         console.error('Shazam error:', err);

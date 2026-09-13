@@ -5,9 +5,9 @@ export const commands = [
   {
     name: 'repo',
     aliases: ['sc', 'script'],
-    description: 'Sends the official GitHub repository and stats for FLASH-MD',
+    description: 'Sends the official GitHub repository and stats for ULTROID',
     execute: async ({ sock, from, config, msg }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       const botVersion = config.BOT_VERSION || '3.0.0';
       const repoApiUrl = 'https://api.github.com/repos/franceking1/Flash-Md-V3';
       const repoUrl = 'https://flash-vercel-iota.vercel.app';
@@ -41,37 +41,19 @@ _Star ⭐ the repository if you like the bot and want to support future developm
 _Don't forget to fork 🍴 and watch 👀 for updates!_`;
 
         await sock.sendMessage(from, { 
-          text: repoInfo,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          text: repoInfo
         }, { quoted: msg });
 
       } catch (error) {
         console.error('GitHub Repo Error:', error.message);
         const errorMsg = `❌ *Error fetching repository stats*
 
-Could not retrieve FLASH-MD repository information at this time.
+Could not retrieve ULTROID repository information at this time.
 
 *⚡ Powered by France King*`;
 
         await sock.sendMessage(from, {
-          text: errorMsg,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          text: errorMsg
         }, { quoted: msg });
       }
     }

@@ -96,7 +96,7 @@ export const commands = [
         execute: async ({ sock, from, msg, commands, auteurMessage, nomAuteurMessage }) => {
             try {
 
-                const botName = 'FLASH-MD-V3';
+                const botName = 'ULTROID';
                 const botVersion = CONFIG.BOT_VERSION || '3.0.0';
                 const ownerName = CONFIG.OWNER_NAME || 'FRANCE KING';
                 const tz = CONFIG.TZ || 'Africa/Nairobi';
@@ -235,14 +235,6 @@ export const commands = [
 
                         contextInfo: {
                             mentionedJid: [userName],
-                            forwardingScore: 1,
-                            isForwarded: true,
-
-                            forwardedNewsletterMessageInfo: {
-                                newsletterJid: '120363238139244263@newsletter',
-                                newsletterName: botName,
-                                serverMessageId: -1
-                            }
                         }
 
                     }, { quoted: msg });
@@ -254,14 +246,6 @@ export const commands = [
 
                         contextInfo: {
                             mentionedJid: [userName],
-                            forwardingScore: 1,
-                            isForwarded: true,
-
-                            forwardedNewsletterMessageInfo: {
-                                newsletterJid: '120363238139244263@newsletter',
-                                newsletterName: botName,
-                                serverMessageId: -1
-                            }
                         }
 
                     }, { quoted: msg });
@@ -287,7 +271,7 @@ export const commands = [
         execute: async ({ sock, from, text, msg, commands, auteurMessage, nomAuteurMessage }) => {
             try {
 
-                const botName = 'FLASH-MD-V3';
+                const botName = 'ULTROID';
                 const botVersion = CONFIG.BOT_VERSION || '3.0.0';
                 const ownerName = CONFIG.OWNER_NAME || 'FRANCE KING';
                 const tz = CONFIG.TZ || 'Africa/Nairobi';
@@ -340,7 +324,7 @@ export const commands = [
                 helpText += `┃❃╰────────────────\n`;
                 helpText += `╰━━━━━━━━━━━━━━━━━━━━━━━╯\n\n`;
 
-                helpText += `*FLASH-MD V3 COMMANDS*\n\n`;
+                helpText += `*ULTROID COMMANDS*\n\n`;
 
                 const grouped = {};
 
@@ -390,15 +374,7 @@ export const commands = [
 
                     contextInfo: {
                         mentionedJid: [userName],
-                        forwardingScore: 1,
-                        isForwarded: true,
-
-                        forwardedNewsletterMessageInfo: {
-                            newsletterJid: '120363238139244263@newsletter',
-                            newsletterName: botName,
-                            serverMessageId: -1
                         }
-                    }
 
                 }, { quoted: msg });
 

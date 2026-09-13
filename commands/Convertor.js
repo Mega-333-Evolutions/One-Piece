@@ -141,7 +141,7 @@ export const commands = [
       const { Sticker, StickerTypes } = await import('wa-sticker-formatter');
       
       const sticker = new Sticker(imageBuffer, {
-        pack: 'FLASH-MD-V3',
+        pack: 'ULTROID',
         author: username,
         type: StickerTypes.FULL,
         quality: 100
@@ -232,7 +232,7 @@ export const commands = [
           const buffer = await downloadMediaMessage(sourceMsg, 'buffer', {}, { logger: console });
 
           const sticker = new Sticker(buffer, {
-            pack: 'FLASH-MD',
+            pack: 'ULTROID',
             author: msg.pushName || 'User',
             type: text?.includes('crop') ? 'cropped' : 'full',
             quality: 70
@@ -265,7 +265,7 @@ export const commands = [
             });
 
             const sticker = new Sticker(await fs.readFile(outputPath), {
-              pack: 'FLASH-MD',
+              pack: 'ULTROID',
               author: msg.pushName || 'User',
               type: 'full',
               quality: 70
@@ -355,7 +355,7 @@ export const commands = [
         filePath = `./temp_${Date.now()}`;
         await fs.writeFile(filePath, buffer);
 
-        const pack = text || msg.pushName || 'Flash-MD';
+        const pack = text || msg.pushName || 'Ultroid';
 
         const sticker = new Sticker(buffer, {
           pack,

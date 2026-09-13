@@ -90,16 +90,7 @@ export const commands = [
         const poweredMsg = await t(from, 'url', 'powered');
         
         await sock.sendMessage(from, { 
-          text: `${successMsg}\n\n🔗 ${link}\n\n${poweredMsg} ${config.BOT_NAME || 'Flash-MD'}`,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: config.BOT_NAME || 'Flash-MD',
-              serverMessageId: -1
-            }
-          }
+          text: `${successMsg}\n\n🔗 ${link}\n\n${poweredMsg} ${config.BOT_NAME || 'Ultroid'}`
         }, { quoted: msg });
         
       } catch (error) {

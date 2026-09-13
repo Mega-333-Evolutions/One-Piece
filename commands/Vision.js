@@ -10,7 +10,7 @@ export const commands = [
     category: 'AI',
     execute: async ({ sock, from, msg, args, config }) => {
       const quoted = msg.message?.extendedTextMessage?.contextInfo?.quotedMessage;
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
 
       if (!quoted || !quoted.imageMessage) {
         const noImageMsg = await t(from, 'vision', 'noImage');
@@ -43,16 +43,7 @@ export const commands = [
         const successTemplate = await t(from, 'vision', 'success');
 
         await sock.sendMessage(from, {
-          text: successTemplate.replace('{result}', translatedResult),
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          text: successTemplate.replace('{result}', translatedResult)
         }, { quoted: msg });
 
       } catch (err) {

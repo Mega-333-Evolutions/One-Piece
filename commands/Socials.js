@@ -8,7 +8,7 @@ export const commands = [
     description: 'Search Google and get top results.',
     category: 'Search',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       
       if (!text) {
         const noQueryMsg = await t(from, 'google', 'noQuery');
@@ -39,16 +39,7 @@ export const commands = [
         });
         
         await sock.sendMessage(from, {
-          text: resultsText.trim(),
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          text: resultsText.trim()
         }, { quoted: msg });
       } catch (err) {
         const errorMsg = await t(from, 'google', 'error');
@@ -64,7 +55,7 @@ export const commands = [
     description: 'Fetch GitHub user profile info.',
     category: 'Search',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       const args = text.trim().split(/\s+/);
       const username = args[0];
       
@@ -102,16 +93,7 @@ export const commands = [
         
         await sock.sendMessage(from, {
           image: { url: profilePic },
-          caption: userInfo,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          caption: userInfo
         }, { quoted: msg });
       } catch (err) {
         const errorMsg = await t(from, 'github', 'error');

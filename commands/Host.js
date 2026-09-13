@@ -29,16 +29,7 @@ export const commands = [
       
       try {
         await sock.sendMessage(from, {
-          text: hostInfo,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: 'FLASH-MD',
-              serverMessageId: -1
-            }
-          }
+          text: hostInfo
         }, { quoted: msg });
       } catch (error) {
         console.error('Error in host command:', error);

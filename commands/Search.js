@@ -13,7 +13,7 @@ export const commands = [
     description: 'Converts text into an ATTP sticker.',
     category: 'User',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       if (!text) {
         const noTextMsg = await t(from, 'attp', 'noText');
         return await sock.sendMessage(from, { 
@@ -36,30 +36,12 @@ export const commands = [
         });
         const stickerBuffer = await stickerMess.toBuffer();
         await sock.sendMessage(from, {
-          sticker: stickerBuffer,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          sticker: stickerBuffer
         }, { quoted: msg });
       } catch {
         const errorMsg = await t(from, 'attp', 'error');
         await sock.sendMessage(from, {
-          text: errorMsg,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          text: errorMsg
         }, { quoted: msg });
       }
     }
@@ -70,20 +52,11 @@ export const commands = [
     description: 'Search and create stickers from Tenor GIFs.',
     category: 'Search',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       if (!text) {
         const noTextMsg = await t(from, 'stickersearch', 'noText');
         return await sock.sendMessage(from, {
-          text: noTextMsg,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          text: noTextMsg
         }, { quoted: msg });
       }
       
@@ -101,31 +74,13 @@ export const commands = [
           });
           const buffer = await sticker.toBuffer();
           await sock.sendMessage(from, {
-            sticker: buffer,
-            contextInfo: {
-              forwardingScore: 1,
-              isForwarded: true,
-              forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363238139244263@newsletter',
-                newsletterName: botName,
-                serverMessageId: -1
-              }
-            }
+            sticker: buffer
           }, { quoted: msg });
         }
       } catch {
         const errorMsg = await t(from, 'stickersearch', 'error');
         await sock.sendMessage(from, {
-          text: errorMsg,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          text: errorMsg
         }, { quoted: msg });
       }
     }
@@ -136,20 +91,11 @@ export const commands = [
     description: 'Get the current weather for a specific location.',
     category: 'Search',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       if (!text) {
         const noTextMsg = await t(from, 'weather', 'noText');
         return await sock.sendMessage(from, {
-          text: noTextMsg,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          text: noTextMsg
         }, { quoted: msg });
       }
       
@@ -188,30 +134,12 @@ export const commands = [
           .replace('{botName}', botName);
         
         await sock.sendMessage(from, {
-          text: weatherText,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          text: weatherText
         }, { quoted: msg });
       } catch {
         const errorMsg = await t(from, 'weather', 'error');
         await sock.sendMessage(from, {
-          text: errorMsg,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          text: errorMsg
         }, { quoted: msg });
       }
     }
@@ -222,20 +150,11 @@ export const commands = [
     description: 'Searches YouTube videos by keyword.',
     category: 'Search',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       if (!text) {
         const noTextMsg = await t(from, 'yts', 'noText');
         return await sock.sendMessage(from, {
-          text: noTextMsg,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          text: noTextMsg
         }, { quoted: msg });
       }
       
@@ -259,30 +178,12 @@ export const commands = [
         const footerTemplate = await t(from, 'yts', 'footer');
         await sock.sendMessage(from, {
           image: { url: videos[0].thumbnail },
-          caption: resultText + footerTemplate.replace('{botName}', botName),
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          caption: resultText + footerTemplate.replace('{botName}', botName)
         }, { quoted: msg });
       } catch {
         const errorMsg = await t(from, 'yts', 'error');
         await sock.sendMessage(from, {
-          text: errorMsg,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          text: errorMsg
         }, { quoted: msg });
       }
     }
@@ -293,7 +194,7 @@ export const commands = [
     description: 'Search and play MP3 music from YouTube (audio only).',
     category: 'Search',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       if (!text) {
         const noTextMsg = await t(from, 'ytmp3', 'noText');
         return sock.sendMessage(from, {
@@ -329,15 +230,6 @@ export const commands = [
           audio: { url: data.downloadLink },
           mimetype: 'audio/mpeg',
           fileName,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          },
           caption: captionMsg
         }, { quoted: msg });
       } catch (err) {
@@ -355,7 +247,7 @@ export const commands = [
     description: 'Downloads a YouTube video.',
     category: 'Download',
     execute: async ({ sock, from, text, msg, config }) => {
-      const botName = config.BOT_NAME || 'Flash-MD';
+      const botName = config.BOT_NAME || 'Ultroid';
       if (!text) {
         const noTextMsg = await t(from, 'ytmp4', 'noText');
         return sock.sendMessage(from, {
@@ -391,16 +283,7 @@ export const commands = [
           video: { url: data.downloadLink },
           mimetype: 'video/mp4',
           fileName,
-          caption: captionMsg,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363238139244263@newsletter',
-              newsletterName: botName,
-              serverMessageId: -1
-            }
-          }
+          caption: captionMsg
         }, { quoted: msg });
       } catch (err) {
         console.error('Ytmp4 error:', err);
