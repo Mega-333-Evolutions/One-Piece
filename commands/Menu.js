@@ -205,7 +205,7 @@ export const commands = [
                 }
 
                 menuText += `${readmore}\n`;
-                menuText += `◇ *THE FLASH MULTI DEVICE* ◇\n\n`;
+                menuText += `◇ *THE ULTROID USERBOT* ◇\n\n`;
                 menuText += `   *Released: 22.2.2024*\n\n`;
                 menuText += ` _Thanks For choosing ${botName}_\n\n`;
                 menuText += `  Created by *${ownerName} ©2024*\n\n`;
