@@ -20,6 +20,11 @@ async function intelQuery(taskPrompt) {
     };
 
     return new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+            connection.close();
+            reject(new Error('Timed out waiting for a response.'));
+        }, 90000);
+
         connection.on('open', () => {
             connection.send('start ' + JSON.stringify({
                 task: taskPrompt,
@@ -83,6 +88,7 @@ async function intelQuery(taskPrompt) {
 
                 results.attachments = mapped;
 
+                clearTimeout(timeout);
                 connection.close();
                 return resolve({
                     topic: results.topic,
@@ -97,6 +103,7 @@ async function intelQuery(taskPrompt) {
         });
 
         connection.on('error', (err) => {
+            clearTimeout(timeout);
             connection.close();
             reject(err);
         });

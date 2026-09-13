@@ -103,6 +103,26 @@ export const commands = [
         });
 
         const buffer = Buffer.from(res.data);
+        const contentType = res.headers['content-type'] || '';
+        const looksLikeImage =
+          contentType.startsWith('image/') ||
+          (buffer.length > 4 && (
+            (buffer[0] === 0xFF && buffer[1] === 0xD8) ||                          // JPEG
+            (buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4E) ||    // PNG
+            (buffer[0] === 0x47 && buffer[1] === 0x49 && buffer[2] === 0x46) ||    // GIF
+            (buffer[0] === 0x52 && buffer[1] === 0x49 && buffer[2] === 0x46)       // WEBP (RIFF)
+          ));
+
+        if (!looksLikeImage || buffer.length < 100) {
+          console.error('Imagine Error: upstream did not return a valid image', {
+            contentType,
+            length: buffer.length,
+            preview: buffer.slice(0, 200).toString('utf8')
+          });
+          const errorMsg = await t(from, 'imagine', 'error');
+          return sock.sendMessage(from, { text: errorMsg });
+        }
+
         const captionMsg = await t(from, 'imagine', 'caption');
 
         await sock.sendMessage(from, {
@@ -172,35 +192,6 @@ export const commands = [
       } catch (error) {
         console.error('LLaMA API Error:', error);
         const errorMsg = await t(from, 'llama', 'error');
-        sock.sendMessage(from, { text: errorMsg });
-      }
-    }
-  },
-  {
-    name: 'gpt',
-    aliases: [],
-    description: 'Ask anything using GPT AI.',
-    category: 'AI',
-    execute: async ({ sock, from, text, msg }) => {
-      if (!text) {
-        const msgText = await t(from, 'gpt', 'noPrompt');
-        return sock.sendMessage(from, { text: msgText });
-      }
-
-      const prompt = text.trim();
-
-      try {
-        await sock.sendMessage(from, { text: '🤖 *GPT is thinking...*' });
-        
-        const response = await gpt4o(prompt);
-        const translatedResponse = await translateAIResponse(from, response);
-        
-        await sock.sendMessage(from, {
-          text: `*🤖 GPT says:*\n\n${translatedResponse}`
-        });
-      } catch (error) {
-        console.error('GPT API Error:', error);
-        const errorMsg = await t(from, 'gpt', 'error');
         sock.sendMessage(from, { text: errorMsg });
       }
     }

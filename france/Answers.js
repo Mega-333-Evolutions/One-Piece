@@ -30,20 +30,6 @@ async function xenc01(prompt) {
         messages: [{ role: 'user', content: prompt }]
       }),
       extract: (data) => data?.choices?.[0]?.message?.content
-    },
-    {
-      name: 'Lepton AI',
-      url: 'https://llama3-8b.lepton.run/api/v1/chat/completions',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer your-api-key'
-      },
-      body: (prompt) => JSON.stringify({
-        messages: [{ role: 'user', content: prompt }],
-        stream: false
-      }),
-      extract: (data) => data?.choices?.[0]?.message?.content
     }
   ];
 
