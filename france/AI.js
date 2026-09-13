@@ -1,88 +1,47 @@
 import axios from 'axios';
 
-async function queryRavenn(question) {
+const GEMINI_MODEL = 'gemini-3.5-flash';
+
+async function queryGemini(prompt) {
+    if (!prompt) throw new Error('Question is required');
+
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error('GEMINI_API_KEY is not set. Add it to your .env file.');
+    }
+
     try {
-        if (!question) throw new Error('Question is required');
-        
-        const response = await axios.get('https://ravenn.site/ai/gpt4', {
-            params: { q: question },
-            timeout: 20000,
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        const response = await axios.post(
+            `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,
+            {
+                contents: [{ parts: [{ text: prompt }] }]
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-goog-api-key': apiKey
+                },
+                timeout: 30000
             }
-        });
-        
-        if (response.data && response.data.status === true && response.data.result) {
-            return response.data.result;
-        }
-        
-        throw new Error('Invalid response from API');
+        );
+
+        const text = response.data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!text) throw new Error('No response from Gemini');
+        return text;
     } catch (error) {
-        console.error('Ravenn API Error:', error.message);
+        console.error('Gemini API Error:', error.response?.data?.error?.message || error.message);
         throw error;
     }
 }
 
 export async function callGeminiAPI(prompt) {
-    return queryRavenn(prompt);
+    return queryGemini(prompt);
 }
 
+// Gemini's API doesn't serve actual Llama models - there's no free official
+// equivalent, so this now runs on the same real Gemini backend as
+// callGeminiAPI above (it already worked this way before, just against a
+// dead endpoint). Swap this out if you get a dedicated Llama provider later.
 export async function callLlamaAPI(prompt) {
-    return queryRavenn(prompt);
-}
-
-export async function gpt41Nano(question) {
-    return queryRavenn(question);
-}
-
-export async function gpt41Mini(question) {
-    return queryRavenn(question);
-}
-
-export async function gpt41(question) {
-    return queryRavenn(question);
-}
-
-export async function o4Mini(question) {
-    return queryRavenn(question);
-}
-
-export async function deepseekR1(question) {
-    return queryRavenn(question);
-}
-
-export async function deepseekV3(question) {
-    return queryRavenn(question);
-}
-
-export async function claude37(question) {
-    return queryRavenn(question);
-}
-
-export async function gemini20(question) {
-    return queryRavenn(question);
-}
-
-export async function grok3Mini(question) {
-    return queryRavenn(question);
-}
-
-export async function qwenQwq32b(question) {
-    return queryRavenn(question);
-}
-
-export async function gpt4o(question) {
-    return queryRavenn(question);
-}
-
-export async function o3(question) {
-    return queryRavenn(question);
-}
-
-export async function gpt4oMini(question) {
-    return queryRavenn(question);
-}
-
-export async function llama33(question) {
-    return queryRavenn(question);
+    return queryGemini(prompt);
 }

@@ -103,9 +103,19 @@ export const MESSAGES = {
     error: '❌ An error occurred while fetching the playlist. Please try again later.',
     timeout: '⏱️ *Request timed out.* The server took too long to respond. Please try again.',
     notFound: '🔍 *Playlist not found.* Please check the URL or try different keywords.',
-    header: '🎵 *ULTROID PLAYLIST*\n\n📋 *{title}*\n📊 *Total Videos:* {total}\n\n',
+    header: 'ULTROID PLAYLIST',
     videoItem: '{number}. *{title}*\n   ⏱️ Duration: {duration}\n   🔗 {url}\n\n',
-    footer: '\n_✨ Use .play <video title> to download any song from this playlist_'
+    footer: '\n_✨ Use .play <video title> to download any song from this playlist_',
+    playlistTitle: '📋 *Playlist:*',
+    total: '📊 *Total Videos:*',
+    duration: '⏱️ Duration:',
+    more: '_...and {remaining} more videos in this playlist._\n',
+    usage: '_✨ Use .play <video title> to download any song from this playlist_',
+    powered: '⚡ Powered by:'
+  },
+  
+  advice: {
+    error: '❌ Could not fetch a piece of advice right now. Please try again later.'
   },
   
   alldl: {
@@ -392,7 +402,7 @@ export const MESSAGES = {
   imagine: {
     noPrompt: '🧠 *What do you want to imagine?*\n\n_Example:_ `.imagine a futuristic city at night`',
     generating: '🎨 *Generating image... Please wait.*',
-    noImage: '⚠️ Sorry, I could not generate the image. Try again later.',
+    error: '⚠️ Sorry, I could not generate the image. Try again later.',
     caption: '_✨ Created by Ultroid-V3_'
   },
   
@@ -402,10 +412,18 @@ export const MESSAGES = {
     error: "❌ An error occurred while searching IMDb."
   },
   
+  inspire: {
+    error: '❌ Could not fetch an inspirational quote right now. Please try again later.'
+  },
+  
   insta: {
     noUrl: '🔗 *Please provide a valid Instagram URL.*\n\nExample: `!insta https://www.instagram.com/reel/xyz123/`',
     error: '❌ *Failed to get media:*\n{error}',
     caption: '_*✨ Downloaded by Ultroid*_'
+  },
+  
+  jokes: {
+    error: '❌ Could not fetch a joke right now. Please try again later.'
   },
   
   llama: {
@@ -417,6 +435,7 @@ export const MESSAGES = {
   logo: {
     noText: '*Example:* .{type} YourText',
     generating: '*Generating your logo... Please wait.*',
+    processing: '*Generating your logo... Please wait.*',
     caption: '*ULTROID - Logo Generator*',
     error: 'An error occurred while generating your logo. Please try again later.'
   },
@@ -454,6 +473,15 @@ export const MESSAGES = {
     error: '❌ An error occurred while fetching the package info.'
   },
   
+  pair: {
+    noNumber: '📱 *Please provide a phone number.*\n\nExample: `.pair 15551234567`',
+    invalid: '❌ *Invalid phone number.* Please include the country code with no spaces or symbols.\n\nExample: `.pair 15551234567`',
+    generating: '⏳ *Generating pairing code for {number}...* Please wait.',
+    error: '❌ Failed to generate a pairing code. Please try again later.',
+    success: '✅ *Pairing code for {number}:*\n\n🔑 {code}\n\nEnter this code in WhatsApp under Linked Devices.',
+    timeout: '⏱️ *Request timed out.* The server took too long to respond. Please try again.'
+  },
+  
   play: {
     noQuery: '🎵 *Please provide a song name or YouTube link.*\n\nExample: `.play alone` or `.play https://youtu.be/xyz`',
     noResults: '❌ *No results found for your query.*\nPlease try a different song name.',
@@ -461,7 +489,21 @@ export const MESSAGES = {
     noAudio: '❌ *No audio found.*\nThe video might not have audio or is unavailable.',
     info: '*🎵 ULTROID MUSIC PLAYER*\n\n╭─❏ *Title:* {title}\n│ *Channel:* {channel}\n│ *Quality:* {quality}p\n╰─────────────\n\n_✨ Downloaded successfully!_',
     timeout: '⏱️ *Request timed out.* The server took too long to respond. Please try again.',
-    error: '❌ An error occurred while processing your request.\nPlease try again later.'
+    error: '❌ An error occurred while processing your request.\nPlease try again later.',
+    searching: '🔎 *Searching for your song...*',
+    notFound: '❌ *No results found for that song.*\nTry a different name or paste the YouTube link directly.',
+    downloading: '⬇️ *Fetching the download link...*',
+    failed: '❌ *Could not fetch the audio for this video.*\nPlease try again or pick a different song.',
+    title: '🎬 *Title:*',
+    duration: '⏱️ *Duration:*',
+    views: '👁️ *Views:*',
+    uploaded: '📅 *Uploaded:*',
+    channel: '📺 *Channel:*',
+    quality: '🎚️ *Quality:*',
+    powered: '⚡ *Powered by:*',
+    sending: '📤 *Sending your audio...*',
+    processing: '🎛️ *Converting to MP3...* Please wait.',
+    sendingOriginal: '⚠️ *Conversion failed - sending the original audio file instead.*'
   },
   
   poll: {
@@ -484,7 +526,10 @@ export const MESSAGES = {
     unsupported: 'Unsupported message type.',
     success: '✅ Message saved and forwarded to owner.',
     error: 'An error occurred while saving the message.',
-    defaultText: 'Saved message'
+    defaultText: 'Saved message',
+    noOwner: 'Owner number is not configured.',
+    image: 'Saved image',
+    video: 'Saved video'
   },
   
   screenshot: {
@@ -583,6 +628,10 @@ export const MESSAGES = {
     invalid: '❌ *Invalid time range.*\n\nUse: `trim <start> <end>`\nExample: `trim 1 4`',
     failed: '❌ *Failed to trim the media.*',
     downloadError: '❌ *Failed to download media.*'
+  },
+  
+  trivia: {
+    error: '❌ Could not fetch a trivia question right now. Please try again later.'
   },
   
   twitter: {

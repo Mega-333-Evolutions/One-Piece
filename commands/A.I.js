@@ -15,21 +15,7 @@ import {
   isValidPhoneNumber,
   delay,
   MESSAGES,
-  LIMITS,
-  gpt41Nano,
-  gpt41Mini,
-  gpt41,
-  o4Mini,
-  deepseekR1,
-  deepseekV3,
-  claude37,
-  gemini20,
-  grok3Mini,
-  qwenQwq32b,
-  gpt4o,
-  o3,
-  gpt4oMini,
-  llama33
+  LIMITS
 } from '../france/index.js';
 import { t, translate, translateAIResponse, getUserLang } from '../france/translator.js';
 import axios from 'axios';
