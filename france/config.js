@@ -153,12 +153,6 @@ export const MESSAGES = {
     result: "*💱 Currency Conversion 💱*\n\n🌍 Base: {base}\n🔄 Updated: {date}\n\n💵 {amount} {from} = {converted} {to}\n💸 Rate: 1 {from} = {rate} {to}"
   },
   
-  deepseek: {
-    noQuery: '🕵️ *You need to specify what to investigate.*\nTry: deepseek Bitcoin trends',
-    gathering: '⏳ *Gathering intelligence... please hold on.*',
-    error: '*🚫 Could not complete the investigation.*'
-  },
-  
   define: {
     usage: 'Provide a term to define.\n\n⚡ Powered by {botName} {botVersion}',
     notFound: 'No definition found for "{word}".\n\n⚡ Powered by {botName} {botVersion}'
@@ -424,12 +418,6 @@ export const MESSAGES = {
   
   jokes: {
     error: '❌ Could not fetch a joke right now. Please try again later.'
-  },
-  
-  llama: {
-    noQuestion: 'Please provide a question to ask LLaMA.',
-    noResponse: 'No response received from LLaMA.',
-    error: 'An error occurred while getting a response from LLaMA.'
   },
   
   logo: {

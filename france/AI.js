@@ -37,11 +37,3 @@ async function queryGemini(prompt) {
 export async function callGeminiAPI(prompt) {
     return queryGemini(prompt);
 }
-
-// Gemini's API doesn't serve actual Llama models - there's no free official
-// equivalent, so this now runs on the same real Gemini backend as
-// callGeminiAPI above (it already worked this way before, just against a
-// dead endpoint). Swap this out if you get a dedicated Llama provider later.
-export async function callLlamaAPI(prompt) {
-    return queryGemini(prompt);
-}

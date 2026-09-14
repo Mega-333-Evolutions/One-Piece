@@ -1,8 +1,7 @@
 import { 
   geminiVision2, 
-  intelQuery,
+  generateGeminiImage,
   callGeminiAPI,
-  callLlamaAPI,
   getRandomWallpaper,
   generatePairCode,
   getRandomJoke,
@@ -10,55 +9,14 @@ import {
   getRandomTrivia,
   getRandomQuote,
   formatPhoneNumber,
-  truncateMessage,
-  formatError,
   isValidPhoneNumber,
   delay,
   MESSAGES,
   LIMITS
 } from '../france/index.js';
 import { t, translate, translateAIResponse, getUserLang } from '../france/translator.js';
-import axios from 'axios';
 
 export const commands = [
-  {
-    name: 'deepseek',
-    aliases: ['intel', 'findout'],
-    description: 'Conducts an AI-powered investigation and returns summarized insights.',
-    category: 'AI',
-    execute: async ({ sock, from, text, msg }) => {
-      const inputQuery = text.trim();
-
-      if (!inputQuery) {
-        const msgText = await t(from, 'deepseek', 'noQuery');
-        return sock.sendMessage(from, { text: msgText });
-      }
-
-      try {
-        const gatheringMsg = await t(from, 'deepseek', 'gathering');
-        await sock.sendMessage(from, { text: gatheringMsg });
-        const data = await intelQuery(inputQuery);
-
-        let summary = data.summary?.trim() || '_No summary available._';
-        summary = await translateAIResponse(from, summary);
-        
-        const references = data.references?.length
-          ? '\n🌍 *References:*\n' + data.references.map((url, idx) => `${idx + 1}. ${url}`).join('\n')
-          : '';
-        const cost = data.stats?.cost ? `\n💰 *Estimated Cost:* $${data.stats.cost.toFixed(2)}` : '';
-        const agent = data.stats?.engine ? `\n🤖 *Agent Type:* ${data.stats.engine}` : '';
-        const stats = `\n📑 *Pages:* ${data.stats.pages} | 🖼 *Images:* ${data.stats.images}`;
-
-        const messageBody = `🧾 *Intel Report:*\n\n${summary}${references}${cost}${agent}${stats}`;
-        const output = truncateMessage(messageBody);
-
-        await sock.sendMessage(from, { text: output });
-      } catch (err) {
-        const errorMsg = await t(from, 'deepseek', 'error');
-        await sock.sendMessage(from, { text: formatError(err, errorMsg) });
-      }
-    }
-  },
   {
     name: 'imagine',
     aliases: ['draw', 'generate'],
@@ -82,32 +40,7 @@ export const commands = [
 
         const enhancedPrompt = `${imagePrompt}, ultra realistic, 4k, cinematic lighting, highly detailed`;
 
-        const url = `https://shizoapi.onrender.com/api/ai/imagine?apikey=shizo&query=${encodeURIComponent(enhancedPrompt)}`;
-
-        const res = await axios.get(url, {
-          responseType: 'arraybuffer'
-        });
-
-        const buffer = Buffer.from(res.data);
-        const contentType = res.headers['content-type'] || '';
-        const looksLikeImage =
-          contentType.startsWith('image/') ||
-          (buffer.length > 4 && (
-            (buffer[0] === 0xFF && buffer[1] === 0xD8) ||                          // JPEG
-            (buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4E) ||    // PNG
-            (buffer[0] === 0x47 && buffer[1] === 0x49 && buffer[2] === 0x46) ||    // GIF
-            (buffer[0] === 0x52 && buffer[1] === 0x49 && buffer[2] === 0x46)       // WEBP (RIFF)
-          ));
-
-        if (!looksLikeImage || buffer.length < 100) {
-          console.error('Imagine Error: upstream did not return a valid image', {
-            contentType,
-            length: buffer.length,
-            preview: buffer.slice(0, 200).toString('utf8')
-          });
-          const errorMsg = await t(from, 'imagine', 'error');
-          return sock.sendMessage(from, { text: errorMsg });
-        }
+        const buffer = await generateGeminiImage(enhancedPrompt);
 
         const captionMsg = await t(from, 'imagine', 'caption');
 
@@ -117,7 +50,7 @@ export const commands = [
         });
 
       } catch (err) {
-        console.error('Imagine Error:', err);
+        console.error('Imagine Error:', err.response?.data?.error?.message || err.message);
         const errorMsg = await t(from, 'imagine', 'error');
         await sock.sendMessage(from, {
           text: errorMsg
@@ -148,37 +81,6 @@ export const commands = [
         console.error('AI API Error:', err.message);
         const errorMsg = await t(from, 'gemini', 'error');
         await sock.sendMessage(from, { text: errorMsg });
-      }
-    }
-  },
-  {
-    name: 'llama',
-    aliases: [],
-    description: 'Ask LLaMA AI a question or prompt.',
-    category: 'AI',
-    execute: async ({ sock, from, text, msg }) => {
-      if (!text) {
-        const msgText = await t(from, 'llama', 'noQuestion');
-        return sock.sendMessage(from, { text: msgText });
-      }
-
-      const prompt = text;
-
-      try {
-        const response = await callLlamaAPI(prompt);
-        if (!response) {
-          const noResponseMsg = await t(from, 'llama', 'noResponse');
-          return sock.sendMessage(from, { text: noResponseMsg });
-        }
-
-        const translatedResponse = await translateAIResponse(from, response);
-        await sock.sendMessage(from, {
-          text: `*LLaMA says:*\n\n${translatedResponse}`
-        });
-      } catch (error) {
-        console.error('LLaMA API Error:', error);
-        const errorMsg = await t(from, 'llama', 'error');
-        sock.sendMessage(from, { text: errorMsg });
       }
     }
   },
