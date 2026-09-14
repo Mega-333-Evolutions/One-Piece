@@ -38,39 +38,54 @@ export async function callGeminiAPI(prompt) {
     return queryGemini(prompt);
 }
 
-export async function generatePollinationsImage(prompt) {
+export async function generateCloudflareImage(prompt) {
     if (!prompt) throw new Error('Prompt is required');
 
-    const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&nologo=true&model=flux`;
+    const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
+    const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+    if (!accountId || !apiToken) {
+        throw new Error('CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_API_TOKEN is not set. Add them to your .env file.');
+    }
 
     try {
-        const response = await axios.get(url, {
-            responseType: 'arraybuffer',
-            timeout: 60000
-        });
+        const response = await axios.post(
+            `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/@cf/black-forest-labs/flux-1-schnell`,
+            {
+                prompt,
+                seed: Math.floor(Math.random() * 1000000)
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${apiToken}`,
+                    'Content-Type': 'application/json'
+                },
+                timeout: 60000
+            }
+        );
 
-        const buffer = Buffer.from(response.data);
-        const contentType = response.headers['content-type'] || '';
+        const base64Image = response.data?.result?.image;
+        if (!base64Image) {
+            console.error('Cloudflare Error: no image in response', response.data?.errors);
+            throw new Error('Cloudflare did not return an image for this prompt');
+        }
+
+        const buffer = Buffer.from(base64Image, 'base64');
         const looksLikeImage =
-            contentType.startsWith('image/') ||
-            (buffer.length > 4 && (
+            buffer.length > 4 && (
                 (buffer[0] === 0xFF && buffer[1] === 0xD8) ||                          // JPEG
                 (buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4E) ||    // PNG
                 (buffer[0] === 0x47 && buffer[1] === 0x49 && buffer[2] === 0x46) ||    // GIF
                 (buffer[0] === 0x52 && buffer[1] === 0x49 && buffer[2] === 0x46)       // WEBP (RIFF)
-            ));
+            );
 
         if (!looksLikeImage || buffer.length < 1000) {
-            console.error('Pollinations Error: response did not look like a valid image', {
-                contentType,
-                length: buffer.length
-            });
-            throw new Error('Pollinations did not return a valid image');
+            console.error('Cloudflare Error: decoded data did not look like a valid image', { length: buffer.length });
+            throw new Error('Cloudflare did not return a valid image');
         }
 
         return buffer;
     } catch (error) {
-        console.error('Pollinations Error:', error.message);
+        console.error('Cloudflare Image Error:', error.response?.data?.errors?.[0]?.message || error.message);
         throw error;
     }
 }
