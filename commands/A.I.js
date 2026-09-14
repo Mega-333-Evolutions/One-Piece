@@ -1,6 +1,6 @@
 import { 
   geminiVision2, 
-  generateGeminiImage,
+  generatePollinationsImage,
   callGeminiAPI,
   getRandomWallpaper,
   generatePairCode,
@@ -40,7 +40,7 @@ export const commands = [
 
         const enhancedPrompt = `${imagePrompt}, ultra realistic, 4k, cinematic lighting, highly detailed`;
 
-        const buffer = await generateGeminiImage(enhancedPrompt);
+        const buffer = await generatePollinationsImage(enhancedPrompt);
 
         const captionMsg = await t(from, 'imagine', 'caption');
 

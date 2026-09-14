@@ -1,10 +1,10 @@
-export { geminiVision2, generateGeminiImage } from './Gemini.js';
+export { geminiVision2 } from './Gemini.js';
 export { fetchAllPosts, fetchStories } from './Ig.js';
 export { getInstaMedia } from './Insta.js';
 export { default as getTikTokMedia } from './Tok.js';
 export { identifySong } from './api.js';
 export { fetchElement } from './api.js';
-export { callGeminiAPI } from './AI.js';
+export { callGeminiAPI, generatePollinationsImage } from './AI.js';
 export * from './config.js';
 export * from './api.js';
 export * from './utils.js';
