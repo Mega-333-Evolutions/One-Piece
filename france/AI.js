@@ -51,8 +51,7 @@ export async function generateCloudflareImage(prompt) {
         const response = await axios.post(
             `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/@cf/black-forest-labs/flux-1-schnell`,
             {
-                prompt,
-                seed: Math.floor(Math.random() * 1000000)
+                prompt
             },
             {
                 headers: {
