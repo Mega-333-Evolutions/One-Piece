@@ -38,7 +38,7 @@ export async function callGeminiAPI(prompt) {
     return queryGemini(prompt);
 }
 
-export async function generateCloudflareImage(prompt) {
+export async function generateCloudflareImage(prompt, model = '@cf/stabilityai/stable-diffusion-xl-base-1.0') {
     if (!prompt) throw new Error('Prompt is required');
 
     const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
@@ -49,26 +49,39 @@ export async function generateCloudflareImage(prompt) {
 
     try {
         const response = await axios.post(
-            `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/@cf/black-forest-labs/flux-1-schnell`,
+            `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/${model}`,
             {
-                prompt
+                prompt,
+                negative_prompt: 'blurry, low quality, distorted, deformed, bad anatomy, watermark, text, extra limbs'
             },
             {
                 headers: {
                     'Authorization': `Bearer ${apiToken}`,
                     'Content-Type': 'application/json'
                 },
+                responseType: 'arraybuffer',
                 timeout: 60000
             }
         );
 
-        const base64Image = response.data?.result?.image;
-        if (!base64Image) {
-            console.error('Cloudflare Error: no image in response', response.data?.errors);
-            throw new Error('Cloudflare did not return an image for this prompt');
+        // Different Workers AI models respond differently: some (flux-1-schnell)
+        // wrap a base64 string in a JSON envelope, others (stable-diffusion-xl-base-1.0)
+        // return the raw image bytes directly. Handle both.
+        const contentType = response.headers['content-type'] || '';
+        let buffer;
+
+        if (contentType.includes('application/json')) {
+            const parsed = JSON.parse(Buffer.from(response.data).toString('utf8'));
+            const base64Image = parsed?.result?.image;
+            if (!base64Image) {
+                console.error('Cloudflare Error: no image in JSON response', parsed?.errors);
+                throw new Error('Cloudflare did not return an image for this prompt');
+            }
+            buffer = Buffer.from(base64Image, 'base64');
+        } else {
+            buffer = Buffer.from(response.data);
         }
 
-        const buffer = Buffer.from(base64Image, 'base64');
         const looksLikeImage =
             buffer.length > 4 && (
                 (buffer[0] === 0xFF && buffer[1] === 0xD8) ||                          // JPEG
@@ -78,13 +91,22 @@ export async function generateCloudflareImage(prompt) {
             );
 
         if (!looksLikeImage || buffer.length < 1000) {
-            console.error('Cloudflare Error: decoded data did not look like a valid image', { length: buffer.length });
+            console.error('Cloudflare Error: response did not look like a valid image', { contentType, length: buffer.length });
             throw new Error('Cloudflare did not return a valid image');
         }
 
         return buffer;
     } catch (error) {
-        console.error('Cloudflare Image Error:', error.response?.data?.errors?.[0]?.message || error.message);
+        let message = error.message;
+        if (error.response?.data) {
+            try {
+                const parsed = JSON.parse(Buffer.from(error.response.data).toString('utf8'));
+                message = parsed?.errors?.[0]?.message || message;
+            } catch (_) {
+                // response wasn't JSON - keep the original error message
+            }
+        }
+        console.error('Cloudflare Image Error:', message);
         throw error;
     }
 }
